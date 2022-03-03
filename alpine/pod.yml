@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alp-pod
+  labels:
+    app: alp-app
+spec:
+  containers:
+  - name: alp-app
+    image: alpine:3.15
+    command: [ "/bin/sh", "-c", "env" ]
+    env:
+      - name: GREETINGS_FROM
+        valueFrom:
+          configMapKeyRef:
+            name: alp-config
+            key: greetings    
+      - name: PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: alp-secret
+            key: password
+  restartPolicy: Never
